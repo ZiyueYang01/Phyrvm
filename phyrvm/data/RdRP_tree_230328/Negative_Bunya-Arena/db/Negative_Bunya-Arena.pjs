@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Negative_Bunya-Arena",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Negative_Bunya-Arena.fas",
+  "number-of-letters": 647017,
+  "number-of-sequences": 271,
+  "last-updated": "2023-06-05T15:10:00",
+  "number-of-volumes": 1,
+  "bytes-total": 724544,
+  "bytes-to-cache": 649577,
+  "files": [
+    "Negative_Bunya-Arena.pdb",
+    "Negative_Bunya-Arena.phd",
+    "Negative_Bunya-Arena.phi",
+    "Negative_Bunya-Arena.phr",
+    "Negative_Bunya-Arena.pin",
+    "Negative_Bunya-Arena.pog",
+    "Negative_Bunya-Arena.pot",
+    "Negative_Bunya-Arena.psq",
+    "Negative_Bunya-Arena.ptf",
+    "Negative_Bunya-Arena.pto"
+  ]
+}

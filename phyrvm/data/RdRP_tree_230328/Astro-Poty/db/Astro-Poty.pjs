@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Astro-Poty",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Astro-Poty.fas",
+  "number-of-letters": 107230,
+  "number-of-sequences": 104,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 160344,
+  "bytes-to-cache": 108263,
+  "files": [
+    "Astro-Poty.pdb",
+    "Astro-Poty.phd",
+    "Astro-Poty.phi",
+    "Astro-Poty.phr",
+    "Astro-Poty.pin",
+    "Astro-Poty.pog",
+    "Astro-Poty.pot",
+    "Astro-Poty.psq",
+    "Astro-Poty.ptf",
+    "Astro-Poty.pto"
+  ]
+}

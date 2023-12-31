@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Partiti-Picobirna",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Partiti-Picobirna.fas",
+  "number-of-letters": 145438,
+  "number-of-sequences": 250,
+  "last-updated": "2023-06-05T15:08:00",
+  "number-of-volumes": 1,
+  "bytes-total": 220503,
+  "bytes-to-cache": 147801,
+  "files": [
+    "Partiti-Picobirna.pdb",
+    "Partiti-Picobirna.phd",
+    "Partiti-Picobirna.phi",
+    "Partiti-Picobirna.phr",
+    "Partiti-Picobirna.pin",
+    "Partiti-Picobirna.pog",
+    "Partiti-Picobirna.pot",
+    "Partiti-Picobirna.psq",
+    "Partiti-Picobirna.ptf",
+    "Partiti-Picobirna.pto"
+  ]
+}

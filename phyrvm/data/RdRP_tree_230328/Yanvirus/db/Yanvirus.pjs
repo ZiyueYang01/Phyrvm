@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Yanvirus",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Yanvirus.fas",
+  "number-of-letters": 5156,
+  "number-of-sequences": 5,
+  "last-updated": "2023-06-05T15:08:00",
+  "number-of-volumes": 1,
+  "bytes-total": 43068,
+  "bytes-to-cache": 5298,
+  "files": [
+    "Yanvirus.pdb",
+    "Yanvirus.phd",
+    "Yanvirus.phi",
+    "Yanvirus.phr",
+    "Yanvirus.pin",
+    "Yanvirus.pog",
+    "Yanvirus.pot",
+    "Yanvirus.psq",
+    "Yanvirus.ptf",
+    "Yanvirus.pto"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Hypo",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Hypo.fas",
+  "number-of-letters": 57003,
+  "number-of-sequences": 20,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 97171,
+  "bytes-to-cache": 57272,
+  "files": [
+    "Hypo.pdb",
+    "Hypo.phd",
+    "Hypo.phi",
+    "Hypo.phr",
+    "Hypo.pin",
+    "Hypo.pog",
+    "Hypo.pot",
+    "Hypo.psq",
+    "Hypo.ptf",
+    "Hypo.pto"
+  ]
+}

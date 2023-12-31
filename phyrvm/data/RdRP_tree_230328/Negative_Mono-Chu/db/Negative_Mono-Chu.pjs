@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Negative_Mono-Chu",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Negative_Mono-Chu.fas",
+  "number-of-letters": 495733,
+  "number-of-sequences": 234,
+  "last-updated": "2023-06-05T15:11:00",
+  "number-of-volumes": 1,
+  "bytes-total": 568071,
+  "bytes-to-cache": 497952,
+  "files": [
+    "Negative_Mono-Chu.pdb",
+    "Negative_Mono-Chu.phd",
+    "Negative_Mono-Chu.phi",
+    "Negative_Mono-Chu.phr",
+    "Negative_Mono-Chu.pin",
+    "Negative_Mono-Chu.pog",
+    "Negative_Mono-Chu.pot",
+    "Negative_Mono-Chu.psq",
+    "Negative_Mono-Chu.ptf",
+    "Negative_Mono-Chu.pto"
+  ]
+}

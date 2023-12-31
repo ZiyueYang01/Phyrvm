@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Cysto",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Cysto.fas",
+  "number-of-letters": 5719,
+  "number-of-sequences": 9,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 44184,
+  "bytes-to-cache": 5889,
+  "files": [
+    "Cysto.pdb",
+    "Cysto.phd",
+    "Cysto.phi",
+    "Cysto.phr",
+    "Cysto.pin",
+    "Cysto.pog",
+    "Cysto.pot",
+    "Cysto.psq",
+    "Cysto.ptf",
+    "Cysto.pto"
+  ]
+}

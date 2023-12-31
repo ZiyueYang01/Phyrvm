@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Birna-Permutotetra",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Birna-Permutotetra.fas",
+  "number-of-letters": 51368,
+  "number-of-sequences": 51,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 96882,
+  "bytes-to-cache": 51940,
+  "files": [
+    "Birna-Permutotetra.pdb",
+    "Birna-Permutotetra.phd",
+    "Birna-Permutotetra.phi",
+    "Birna-Permutotetra.phr",
+    "Birna-Permutotetra.pin",
+    "Birna-Permutotetra.pog",
+    "Birna-Permutotetra.pot",
+    "Birna-Permutotetra.psq",
+    "Birna-Permutotetra.ptf",
+    "Birna-Permutotetra.pto"
+  ]
+}

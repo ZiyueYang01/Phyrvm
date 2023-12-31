@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Zhaovirus",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Zhaovirus.fas",
+  "number-of-letters": 16752,
+  "number-of-sequences": 9,
+  "last-updated": "2023-06-05T15:08:00",
+  "number-of-volumes": 1,
+  "bytes-total": 55380,
+  "bytes-to-cache": 16930,
+  "files": [
+    "Zhaovirus.pdb",
+    "Zhaovirus.phd",
+    "Zhaovirus.phi",
+    "Zhaovirus.phr",
+    "Zhaovirus.pin",
+    "Zhaovirus.pog",
+    "Zhaovirus.pot",
+    "Zhaovirus.psq",
+    "Zhaovirus.ptf",
+    "Zhaovirus.pto"
+  ]
+}

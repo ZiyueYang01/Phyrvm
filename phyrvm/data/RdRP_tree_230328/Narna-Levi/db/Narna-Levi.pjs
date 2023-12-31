@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Narna-Levi",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Narna-Levi.fas",
+  "number-of-letters": 153624,
+  "number-of-sequences": 202,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 219839,
+  "bytes-to-cache": 155539,
+  "files": [
+    "Narna-Levi.pdb",
+    "Narna-Levi.phd",
+    "Narna-Levi.phi",
+    "Narna-Levi.phr",
+    "Narna-Levi.pin",
+    "Narna-Levi.pog",
+    "Narna-Levi.pot",
+    "Narna-Levi.psq",
+    "Narna-Levi.ptf",
+    "Narna-Levi.pto"
+  ]
+}

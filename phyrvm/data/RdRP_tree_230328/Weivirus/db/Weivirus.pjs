@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Weivirus",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Weivirus.fas",
+  "number-of-letters": 22420,
+  "number-of-sequences": 28,
+  "last-updated": "2023-06-05T15:08:00",
+  "number-of-volumes": 1,
+  "bytes-total": 64391,
+  "bytes-to-cache": 22769,
+  "files": [
+    "Weivirus.pdb",
+    "Weivirus.phd",
+    "Weivirus.phi",
+    "Weivirus.phr",
+    "Weivirus.pin",
+    "Weivirus.pog",
+    "Weivirus.pot",
+    "Weivirus.psq",
+    "Weivirus.ptf",
+    "Weivirus.pto"
+  ]
+}

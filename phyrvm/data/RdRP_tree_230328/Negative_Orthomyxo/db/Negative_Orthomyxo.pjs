@@ -1,0 +1,25 @@
+{
+  "version": "1.2",
+  "dbname": "Negative_Orthomyxo",
+  "dbtype": "Protein",
+  "db-version": 5,
+  "description": "Negative_Orthomyxo.fas",
+  "number-of-letters": 29719,
+  "number-of-sequences": 38,
+  "last-updated": "2023-06-05T15:07:00",
+  "number-of-volumes": 1,
+  "bytes-total": 72310,
+  "bytes-to-cache": 30174,
+  "files": [
+    "Negative_Orthomyxo.pdb",
+    "Negative_Orthomyxo.phd",
+    "Negative_Orthomyxo.phi",
+    "Negative_Orthomyxo.phr",
+    "Negative_Orthomyxo.pin",
+    "Negative_Orthomyxo.pog",
+    "Negative_Orthomyxo.pot",
+    "Negative_Orthomyxo.psq",
+    "Negative_Orthomyxo.ptf",
+    "Negative_Orthomyxo.pto"
+  ]
+}
