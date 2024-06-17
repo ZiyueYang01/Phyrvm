@@ -111,7 +111,7 @@ If you already have these databases, you can skip the download step and just con
 
 
 
-#### **NCBI Nucleotide Sequence Database (NT)**
+#### [NCBI Nucleotide Sequence Database (NT)](./info/db_NT.md)
 
 
 
