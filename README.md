@@ -9,10 +9,11 @@
 
 | ![Image](./info/pipeline.jpg)|
 |:--:|
-| Phyrvm automates RNA virus detection in three stages: preprocessing of sequencing data, screening for RNA virus contigs, and phylogenetic analysis. It outputs viral sequences, phylogenetic trees, and detailed reports, offering flexibility and accuracy in identifying putative viral sequences and their host associations. | 
+| Phyrvm automates RNA virus detection in three stages: RNA virus discovery, phylogenetic analysis, and phylogeny-based virus characterization. It outputs viral sequences, phylogenetic trees, and detailed reports, offering flexibility and accuracy in identifying putative viral sequences and their host associations. | 
 
 ## Installation
-- python 3.8 
+- python 3.8
+- R 4.2
 
 ### Step 1: Install conda and third-party dependencies
 Phyrvm requires third-party packages from the conda-forge and bioconda channels
@@ -40,7 +41,6 @@ pip install -i phyrvm
 ```
 
 ### Step 3: Install R and R package
-- R 4.2
 
 ```shell
 #install R package
