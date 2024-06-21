@@ -20,7 +20,7 @@ print(extra_files)
 
 setup(
     name='phyrvm',
-    version='3.0.0',
+    version='1.1.0',
     author="YangZiyue&ShanYongtao",
     author_email="yangzy58@sysu.edu.cn",
     packages=find_packages(),
@@ -36,7 +36,6 @@ setup(
         "regex",
         "seaborn",
         "tqdm",
-        "rpy2"
     ],
     entry_points={
         'console_scripts': [

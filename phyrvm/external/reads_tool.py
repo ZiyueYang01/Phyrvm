@@ -5,6 +5,7 @@ import shutil
 from phyrvm.biolib.exceptions import ExternalException
 from phyrvm.config.config import LOG_TASK
 
+
 class Bowtie2(object):
     def __init__(self,model,threads):
 
@@ -12,7 +13,8 @@ class Bowtie2(object):
         self.model = model
         """Instantiate the class."""
         self.logger = logging.getLogger('timestamp')
-        
+
+
     def run(self,input_file,out_file="",build_path="",data_base="",co1_file=""):
         env = os.environ.copy()
         if self.model == "fast-local":
@@ -55,7 +57,7 @@ class Megahit(object):
         self.threads = threads 
         """Instantiate the class."""
         self.logger = logging.getLogger('timestamp')
-    
+
     def run(self,input_file,cut_len,out_dir):
         env = os.environ.copy()
 
@@ -91,6 +93,7 @@ class Samtools(object):
 
     def run(self,input_file,output_file=""):
         env = os.environ.copy()
+        # self.logger.info(f'Running Samtools  with model {self.model}')
         if self.model == "view":
             args = ["samtools", "view","-bSF4","-@",str(self.threads),"-o",output_file,input_file]
             proc = subprocess.Popen(

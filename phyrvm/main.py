@@ -15,7 +15,7 @@ from phyrvm.biolib.common import (check_dependencies,
                                   check_file_exists,
                                   make_sure_path_exists)
 from phyrvm.biolib.exceptions import PhyRvmException
-from .contigs_filter import Contigs_filter
+from .assembly_and_basic_annotation import assembly_and_basic_annotation
 
 class OptionsParser(object):
 
@@ -26,16 +26,16 @@ class OptionsParser(object):
         self.genomes_to_process = None
 
 
-    def contigs_filter(self,options):
+    def assembly_and_basic_annotation(self,options):
 
         self.logger.log(LOG_TASK,'START Primary Screen PART...')
 
-        contigs_filter_path = os.path.join(options.out_dir,'contigs_filter')
+        assembly_and_basic_annotation_path = os.path.join(options.out_dir,'assembly_and_basic_annotation')
         res_path = os.path.join(options.out_dir,"results")
-        contigs_filter_fasta = f"{res_path}/Primary_screen_res.fasta"
-        contigs_filter_fasta_keep_dup = f"{res_path}/Primary_screen_keep_dup_res.fasta"
+        assembly_and_basic_annotation_fasta = f"{res_path}/Primary_screen_res.fasta"
+        assembly_and_basic_annotation_fasta_keep_dup = f"{res_path}/Primary_screen_keep_dup_res.fasta"
         check_file_exists(options.i)
-        make_sure_path_exists(contigs_filter_path)
+        make_sure_path_exists(assembly_and_basic_annotation_path)
         make_sure_path_exists(os.path.join(options.out_dir,'results'))
 
         if options.i2 is not None:
@@ -44,24 +44,24 @@ class OptionsParser(object):
         else:
             reads_list = [options.i]
 
-        contigs_filter_item = Contigs_filter(reads_list,contigs_filter_path,options.threads)
-        rm_rRNA_file,filename = contigs_filter_item.qc_with_rm_rRNA()
+        assembly_and_basic_annotation_item = assembly_and_basic_annotation(reads_list,assembly_and_basic_annotation_path,options.threads)
+        rm_rRNA_file,filename = assembly_and_basic_annotation_item.qc_with_rm_rRNA()
 
-        accession_tax_VirusesFlitered_file = contigs_filter_item.run(options,rm_rRNA_file,filename)
+        accession_tax_VirusesFlitered_file = assembly_and_basic_annotation_item.run(options,rm_rRNA_file,filename)
 
         if len(reads_list) == 2:
-            os.remove(os.path.join(contigs_filter_path,"step1_QC_1.fq.gz"))
-            os.remove(os.path.join(contigs_filter_path,"step1_QC_2.fq.gz"))
-            os.remove(os.path.join(contigs_filter_path,"step2_QC_1.fq"))
-            os.remove(os.path.join(contigs_filter_path,"step2_QC_2.fq"))
-            os.remove(os.path.join(contigs_filter_path,"step3_QC_cdhit_1.fq"))
-            os.remove(os.path.join(contigs_filter_path,"step3_QC_cdhit_1.fq.clstr"))
-            os.remove(os.path.join(contigs_filter_path,"step3_QC_cdhit_1.fq2.clstr"))
-            os.remove(os.path.join(contigs_filter_path,"step3_QC_cdhit_2.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step1_QC_1.fq.gz"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step1_QC_2.fq.gz"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step2_QC_1.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step2_QC_2.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step3_QC_cdhit_1.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step3_QC_cdhit_1.fq.clstr"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step3_QC_cdhit_1.fq2.clstr"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step3_QC_cdhit_2.fq"))
         else:
-            os.remove(os.path.join(contigs_filter_path,"step1_QC.fq.gz"))
-            os.remove(os.path.join(contigs_filter_path,"step2_QC.fq"))
-            os.remove(os.path.join(contigs_filter_path,"step3_QC_cdhit.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step1_QC.fq.gz"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step2_QC.fq"))
+            os.remove(os.path.join(assembly_and_basic_annotation_path,"step3_QC_cdhit.fq"))
 
         if not os.path.isfile(accession_tax_VirusesFlitered_file):
             self.logger.log(LOG_TASK,'END Primary Screen PART...')
@@ -71,8 +71,8 @@ class OptionsParser(object):
             sys.exit()
 
         if options.no_trim_contamination is False:
-            self.logger.info('[contigs_filter] Cut the sequence contamination at both ends of contigs')
-            output_nt_fasta = Trim_contamination(contigs_filter_path,options.threads).run(accession_tax_VirusesFlitered_file)
+            self.logger.info('[assembly_and_basic_annotation] Cut the sequence contamination at both ends of contigs')
+            output_nt_fasta = Trim_contamination(assembly_and_basic_annotation_path,options.threads).run(accession_tax_VirusesFlitered_file)
             res_file = output_nt_fasta
         else:
             res_file = accession_tax_VirusesFlitered_file
@@ -84,17 +84,17 @@ class OptionsParser(object):
             self.logger.log(LOG_TASK,'END Primary Screen PART...')
             sys.exit()
 
-        rmdup_res_fas = Rmdup(options.subparser_name,contigs_filter_path,options.threads).run(res_file)
-        copy(os.path.join(contigs_filter_path,'step11_rmdup_res.fas'),contigs_filter_fasta)
+        rmdup_res_fas = Rmdup(options.subparser_name,assembly_and_basic_annotation_path,options.threads).run(res_file)
+        copy(os.path.join(assembly_and_basic_annotation_path,'step11_rmdup_res.fas'),assembly_and_basic_annotation_fasta)
         rmdup_res_fas_keep_dup = res_file
-        copy(rmdup_res_fas_keep_dup,contigs_filter_fasta_keep_dup)
+        copy(rmdup_res_fas_keep_dup,assembly_and_basic_annotation_fasta_keep_dup)
         
-        Summary(options,contigs_filter_path,"Primary_screen_res.tsv").run()
-        Summary(options,contigs_filter_path,"Primary_screen_keep_dup_res.tsv").run()
+        Summary(options,assembly_and_basic_annotation_path,"Primary_screen_res.tsv").run()
+        Summary(options,assembly_and_basic_annotation_path,"Primary_screen_keep_dup_res.tsv").run()
 
-        Calculate_RPM(contigs_filter_path,
+        Calculate_RPM(assembly_and_basic_annotation_path,
                     options.threads,"Primary_screen_res.tsv").run(rmdup_res_fas,rm_rRNA_file)
-        Calculate_RPM(contigs_filter_path,
+        Calculate_RPM(assembly_and_basic_annotation_path,
             options.threads,"Primary_screen_keep_dup_res.tsv").run(rmdup_res_fas_keep_dup,rm_rRNA_file)
         
         self.logger.log(LOG_TASK,'END Primary Screen PART...')
@@ -138,23 +138,23 @@ class OptionsParser(object):
             check_dependencies(['bbduk.sh',
                     'diamond','seqkit','bowtie2','cd-hit','taxonkit',
                     'megahit','makeblastdb','blastn',
-                    'blastp','mafft','trimal','phyml','pplacer','guppy'])
-
-            contigs_file = self.contigs_filter(options)
+                    'blastp','mafft','trimal','pplacer','guppy'])
+            
+            contigs_file = self.assembly_and_basic_annotation(options)
             options.classify_i = contigs_file
             self.phylogenetic_analysis(options)
 
-        elif options.subparser_name == 'contigs_filter':
+        elif options.subparser_name == 'assembly_and_basic_annotation':
             check_dependencies(['bbduk.sh','cd-hit',
                     'diamond','seqkit','bowtie2','taxonkit',
                     'megahit','makeblastdb','blastn',
                     'blastp'])
 
-            self.contigs_filter(options)
+            self.assembly_and_basic_annotation(options)
         elif options.subparser_name == 'phylogenetic_analysis':
             check_dependencies(['bbduk.sh','cd-hit',
                     'diamond','seqkit','makeblastdb','blastn','taxonkit',
-                    'blastp','mafft','trimal','phyml','pplacer','guppy'])
+                    'blastp','mafft','trimal','pplacer','guppy'])
 
             self.phylogenetic_analysis(options)
 

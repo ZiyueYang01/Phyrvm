@@ -1,6 +1,6 @@
 __author__ = 'YangZiyue, ShanYongtao'
 __author_email__ = 'yangzy58@mail2.sysu.edu.cn'
-__description__ = 'A one-stop software solution for RNA virus mining and host-association prediction.'
+__description__ = 'A Comprehensive Platform for Discovering and Characterizing RNA Viruses in Depth.'
 __license__ = 'MIT'
 __name__ = 'phyrvm'
 __python_requires__ = '==3.8'

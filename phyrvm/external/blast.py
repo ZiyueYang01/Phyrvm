@@ -43,11 +43,15 @@ class Blastp(object):
         """Instantiate the class."""
         self.logger = logging.getLogger('timestamp')
     
-    def run(self,input_file,out_tsv="",db_path=""):
+    def run(self,input_file,model,out_tsv="",db_path=""):
         env = os.environ.copy()
-        args = ['blastp', '-query', input_file, '-db', db_path, 
-                '-out', out_tsv,'-evalue', "1E-10", "-max_hsps", str(1),
-                "-outfmt", "6 qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore qlen slen"]
+        if model == "makedb":
+            args = ['makeblastdb', '-in', input_file, 
+                '-dbtype', 'prot', '-out', db_path]
+        else:
+            args = ['blastp', '-query', input_file, '-db', db_path, 
+                    '-out', out_tsv,'-evalue', "1E-10", "-max_hsps", str(1),
+                    "-outfmt", "6 qaccver saccver pident length mismatch gapopen qstart qend sstart send evalue bitscore qlen slen"]
 
         blastp_log = out_tsv+"_log.txt"
         with open(blastp_log, 'a+') as f_out_err:
@@ -75,6 +79,8 @@ class Diamond(object):
         if model=='ultra_sensitive':
             args = ['diamond','blastx', '-q', origin_file, '-d', self.database_path, '-o', 
                  output_tsv, '-e', '1E-4', '-k', str(1), '-p', str(self.threads),'--ultra-sensitive', '-f',str(6)]
+        elif model == "makedb":
+            args = ['diamond','makedb', '--in', origin_file, '-d', self.database_path]
         else:
             args = ['diamond','blastx', '-q', origin_file, '-d', self.database_path, '-o', 
                  output_tsv, '-e', '1E-4', '-k', str(1), '-p', str(self.threads),'-f',str(6)]

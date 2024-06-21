@@ -51,13 +51,17 @@ class Translate(object):
         aa_output_file = f'{self.out_dir}/aa.fas'
         out_tsv = f'{self.out_dir}/aa.tsv'
         db_path = f"{INTER_RdRP_CLUSTR_PATH}/{self.clustr_name}/db/{self.clustr_name}"
+        db_fas = f"{INTER_RdRP_CLUSTR_PATH}/{self.clustr_name}/{self.clustr_name}.fas"
         with open(aa_output_file, 'w') as fw:
             count=1
             for seq in amino_acids:
                 fw.write(f">aa_seq_{count}"+ '\n')
                 fw.write(str(seq) + '\n')
                 count+=1
-        aa_blastp = Blastp().run(aa_output_file,out_tsv,db_path)
+        if os.path.isdir(f"{INTER_RdRP_CLUSTR_PATH}/{self.clustr_name}/db") is False:
+            Blastp().run(db_fas,"makedb",
+                        db_path=db_path)
+        aa_blastp = Blastp().run(aa_output_file,"blastp",out_tsv,db_path)
         aa_table = pd.read_csv(aa_blastp,header=None,encoding = "utf-8",sep = '\t', 
                                 names =['qaccver','saccver','pident','length',"mismatch","gapopen",
                                         'qstart','qend','sstart','send','evalue','bitscore','qlen','slen'])

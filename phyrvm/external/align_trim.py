@@ -3,6 +3,8 @@ import os
 import subprocess
 from phyrvm.config.config import LOG_TASK
 
+
+
 class Mafft(object):
 
     def __init__(self,threads):
@@ -12,6 +14,7 @@ class Mafft(object):
 
     def run(self, input_file):
         env = os.environ.copy()
+        # self.logger.log(LOG_TASK,'Using mafft to align query contigs and ref seqs..')
         msa_file = input_file+"_mafft.fasta"
         args = f' mafft --maxiterate 1000 --genafpair  --thread {self.threads} {input_file} > {msa_file}'
         mafft_log = input_file+"_mafft.log"

@@ -36,11 +36,7 @@ def __out_dir(group, required):
     group.add_argument('-out_dir', type=str, default=None, required=required,
                        help="Directory to output files")
 
-def __classify_model(group,required):
-    group.add_argument('-classify_model', type=str,choices=['Accurate','Fast','All'],
-                       help='Accurate or Fast (Tree building speed)')
     
-
 def __threads(group):
     group.add_argument('--threads', type=int,default=1,
                        help='Threads num')
@@ -76,7 +72,6 @@ def get_main_parser():
         with arg_group(parser, 'required named arguments') as grp:
             __reads(grp, required=True)
             __out_dir(grp, required=True)
-            __classify_model(grp, required=True)
         with arg_group(parser, 'optional arguments') as grp:
             __reads_2(grp)
             __threads(grp)
@@ -85,7 +80,7 @@ def get_main_parser():
             __group_list(grp)
             __group_aa_length(grp)
             __ultra_sensitive(grp)
-    with subparser(sub_parsers, 'contigs_filter', '') as parser:
+    with subparser(sub_parsers, 'assembly_and_basic_annotation', '') as parser:
         with arg_group(parser, 'required named arguments') as grp:
             __reads(grp, required=True)
             __out_dir(grp, required=True)
@@ -98,7 +93,6 @@ def get_main_parser():
         with arg_group(parser, 'required named arguments') as grp:
             __classify_i(grp, required=True)
             __out_dir(grp, required=True)
-            __classify_model(grp, required=True)
         with arg_group(parser, 'optional arguments') as grp:
             __threads(grp)
             __keep_dup(grp)

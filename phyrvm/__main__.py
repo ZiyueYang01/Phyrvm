@@ -19,14 +19,13 @@ def print_help():
   
   Methods:
     end_to_end -> full pipeline to identify and classify potential virus sequences
-    contigs_filter -> identify potential candidate virus sequences
+    assembly_and_basic_annotation -> identify potential candidate virus sequences
     phylogenetic_analysis -> evolutionary analysis and estimate pathogenicity on contigs
   Tools:
     install -> install python package
     download -> data download
   Detail: phyrvm <medthod> -h for command specific help
     ''')
-
 
 def main():
     args = None
@@ -88,4 +87,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    a = main()
+    

@@ -22,7 +22,6 @@ from phyrvm.rvm.main_taxon import main_taxon
 class Phylogenetic_analysis(object):
     def __init__(self,input_file,out_dir,options):
         self.input_file = input_file
-        self.classify_model = options.classify_model
         self.threads = options.threads
         self.out_dir = out_dir
         self.out_pair_path = os.path.abspath(os.path.join(self.out_dir, ".."))
@@ -224,8 +223,7 @@ class Phylogenetic_analysis(object):
             out_trimal_file = f"{clustr_dir}/{clustr_name}_all_del_{i-1}.fasta_mafft.fasta.trim.fasta"
         
         self.Infectivity_aai(clustr_name,out_trimal_file)
-        classify_item = Classify(out_trimal_file,clustr_dir,clustr_name,
-                                    self.classify_model)
+        classify_item = Classify(out_trimal_file,clustr_dir,clustr_name)
         classify_item.run()
 
 
@@ -281,8 +279,11 @@ class Phylogenetic_analysis(object):
         seqkit.run(self.input_file,f"{output_file_dir}/{filename}.fasta","grep",ID_txt)
         fieldnames = ["qseqid", "qlen", "sseqid", "stitle", "slen", "pident", "length", "evalue"]
         diamond = Diamond(NR_DB_PATH,self.threads,fieldnames)
-        diamond_nr_out_tsv = os.path.join(self.out_dir)+"/blast_nr.tsv"
-        diamond.run(f"{output_file_dir}/{filename}.fasta",diamond_nr_out_tsv)
+        if os.path.exists(os.path.join(self.out_pair_path,"assembly_and_basic_annotation")+"/step7_NR.tsv"):
+            diamond_nr_out_tsv =os.path.join(self.out_pair_path,"assembly_and_basic_annotation")+"/step7_NR.tsv"
+        else:
+            diamond_nr_out_tsv = os.path.join(self.out_dir)+"/blast_nr.tsv"
+            diamond.run(f"{output_file_dir}/{filename}.fasta",diamond_nr_out_tsv)
         nr_df = pd.read_csv(diamond_nr_out_tsv,sep='\t',names=["qseqid","qlen","NR_sseqid","NR_stitle","NR_length","NR_pident","NR_matched_len","NR_evalue"])
         nr_df.to_csv(os.path.join(self.out_dir)+"/blast_nr_name.tsv",sep = '\t',index = False)
         main_taxon(os.path.join(self.out_dir)+"/blast_nr_name.tsv",self.out_dir).run()
@@ -324,6 +325,10 @@ class Phylogenetic_analysis(object):
 
     def _compare(self):
         out_type = ["qseqid", "qlen", "sseqid", "slen", "pident", "length", "evalue"]
+        print(RdRP_DB_PATH+".dmnd")
+        print(os.path.exists(RdRP_DB_PATH+".dmnd"))
+        if  os.path.exists(RdRP_DB_PATH+".dmnd") is False:
+            Diamond(RdRP_DB_PATH,self.threads, 'a').run(RdRP_DB_PATH+".fas",'a',model="makedb")
         diamond = Diamond(RdRP_DB_PATH,self.threads,out_type)
         diamond_out_tsv = os.path.join(self.out_dir)+"/diamond_all.tsv"
         diamond.run(self.input_file,diamond_out_tsv)
@@ -361,28 +366,13 @@ class Phylogenetic_analysis(object):
         res_path = os.path.join(self.out_pair_path,"results")
         res_Accurate_tsv = res_path+"/Contigs_classify_res_Accurate.csv"
         res_Fast_tsv = res_path+"/Contigs_classify_res_Fast.csv"
-        if self.classify_model == "Accurate":
-            if os.path.isfile(os.path.join(self.out_dir,"Contigs_classify_res_Accurate.csv")):
-                out = self.summary(os.path.join(self.out_dir,"Contigs_classify_res_Accurate.csv"))
-                with open(res_Accurate_tsv,'w+', encoding='utf-8') as f:
-                    out.to_csv(f, index=False,  header=True)
-        elif self.classify_model =='Fast':
-            if os.path.isfile(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv")):
-                out = self.summary(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv"))
-                with open(res_Fast_tsv,'w+', encoding='utf-8') as f:
-                    out.to_csv(f, index=False,  header=True)
-        elif self.classify_model =='All':
-            if os.path.isfile(os.path.join(self.out_dir,"Contigs_classify_res_Accurate.csv")):
-                out = self.summary(os.path.join(self.out_dir,"Contigs_classify_res_Accurate.csv"))
-                with open(res_Accurate_tsv,'w+', encoding='utf-8') as f:
-                    out.to_csv(f, index=False,  header=True)
-                self.draw_infectivity_distribution(res_Accurate_tsv,'Accurate_infectivity_distribution')
 
-            if os.path.isfile(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv")):
-                out = self.summary(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv"))
-                with open(res_Fast_tsv,'w', encoding='utf-8') as f:
-                    out.to_csv(f, index=False,  header=True)
-                self.draw_infectivity_distribution(res_Fast_tsv,'Fast_infectivity_distribution')
+
+        if os.path.isfile(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv")):
+            out = self.summary(os.path.join(self.out_dir,"Contigs_classify_res_Fast.csv"))
+            with open(res_Fast_tsv,'w+', encoding='utf-8') as f:
+                out.to_csv(f, index=False,  header=True)
+        
 
         if os.path.isdir(os.path.join(res_path,"label_tree")):
             rmtree(os.path.join(res_path,"label_tree"))

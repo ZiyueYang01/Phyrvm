@@ -2,20 +2,27 @@ import dendropy
 import os
 import logging
 import pandas as pd
+from Bio import SeqIO
+from os import system
+from phyrvm.external.blast import Blastp
 from phyrvm.config.config import ICTV_TAXON_CSV
 
 class Tree_taxon(object):
     
-    def __init__(self,input_tree,ref_tsv,clustr_name,item):
+    def __init__(self,input_tree,ref_tsv,clustr_name,item,msa,out_dir):
         self.input_tree = input_tree
         self.ref_tsv = ref_tsv
         self.clustr_name = clustr_name
         self.item = item
         self.ref_id = list(pd.read_csv(self.ref_tsv)['Cluster_sseqid'])
         self.csvPD = pd.read_csv(self.ref_tsv,sep=',',header=0)
+        self.msa = msa
+        self.out_dir = out_dir
         self.logger = logging.getLogger('timestamp')
 
 
+
+#这里我想构建一个字典，保存一下，不能每次都进行blastp吧，太浪费时间了
     def find_ref_class(self,node_ID):
         self.csvPD = pd.read_csv(self.ref_tsv,sep=',',header=0)
         for i in range(len(self.csvPD)):
@@ -33,6 +40,45 @@ class Tree_taxon(object):
         tree.ladderize(ascending=False)
         return tree
 
+    def cal_aai(self,node,sister):
+        supergroup = self.out_dir.split("/")[-1]
+        out_fas = os.path.join(self.out_dir,supergroup)+"_all.fasta"
+
+        seq_trim = SeqIO.to_dict(SeqIO.parse(out_fas, "fasta"))
+        query_str = str(seq_trim[str(node.taxon).strip("'")].seq)
+        ref_str = str(seq_trim[str(sister.taxon).strip("'")].seq)
+
+        query_str_file = f'{self.out_dir}/blastp.fas'
+        ref_str_file = f'{self.out_dir}/blastp_ref.fas'
+        out_tsv = f'{self.out_dir}/blastp.tsv'
+
+        with open(query_str_file, 'w') as fw:
+            fw.write(f">query"+ '\n')
+            fw.write(str(query_str) + '\n')
+        with open(ref_str_file, 'w') as fw:
+            fw.write(f">ref"+ '\n')
+            fw.write(str(ref_str) + '\n')
+
+        db_path = f'{self.out_dir}/blastp'
+        system(f'makeblastdb \
+                -dbtype prot \
+                -in {ref_str_file} \
+                -input_type fasta \
+                -parse_seqids \
+                -out {db_path} ')
+        
+        aa_blastp = Blastp().run(query_str_file,"blastp",out_tsv,db_path)
+
+        size = os.path.getsize(aa_blastp)
+        if size <1 :
+            return 0
+
+        aa_table = pd.read_csv(aa_blastp,header=None,encoding = "utf-8",sep = '\t', 
+                                names =['qaccver','saccver','pident','length',"mismatch","gapopen",
+                                        'qstart','qend','sstart','send','evalue','bitscore','qlen','slen'])
+        
+        return aa_table['pident'][0]
+
     def kids_has_ref(self,node):
         if str(node.taxon).strip("'") in self.ref_id:
             return True
@@ -41,7 +87,16 @@ class Tree_taxon(object):
             sister_node = child.sister_nodes()[0]
             if (str(child.taxon).strip("'") in self.ref_id) and ((str(sister_node.taxon).strip("'") in self.ref_id) is False and sister_node.is_leaf()):
                 child.label = self.find_ref_class(str(child.taxon))
-                sister_node.label = child.label
+
+                if self.item != 'Human':
+                    sister_node.label = child.label
+                else:
+                    identity = self.cal_aai(child,sister_node)
+                    if int(identity) < 80:
+                        sister_node.label = self.clustr_name
+
+                    else:
+                        sister_node.label = child.label
                 node.label = sister_node.label
                 self.par_node_class(node)
                 return True
@@ -162,12 +217,20 @@ class Tree_taxon(object):
                         sister.label = self.find_ref_class(str(sister.taxon))     
                         self.par_node_class(node)
                 elif str(sister.taxon).strip("'") in self.ref_id:
-                        taxon = self.find_ref_class(str(sister.taxon))
-                        if taxon is not None:
-                            sister.label = taxon
-                        else:
-                            sister.label = self.clustr_name
+                    taxon = self.find_ref_class(str(sister.taxon))
+                    if taxon is not None:
+                        sister.label = taxon
+                    else:
+                        sister.label = self.clustr_name
+                    if self.item != 'Human':
                         node.label = sister.label
+                    else:
+                        identity = self.cal_aai(node,sister)
+                        if int(identity) < 80:
+                            node.label = self.clustr_name
+                        else:
+                            node.label = sister.label
+                    self.par_node_class(node)
                 elif str(node.taxon).strip("'") not in self.ref_id and sister.is_internal():
                     if self.kids_has_ref(sister):
                         new_node = self.sister_node(node)
@@ -181,7 +244,7 @@ class Tree_taxon(object):
                 if str(node.label) ==  'None':
                     node.label = self.clustr_name
                 self.par_node_class(node)
-        return tree 
+
 
 
     def classify(self,tree,query_list):
@@ -233,7 +296,7 @@ class Tree_taxon(object):
         return query_dic,taxon_dic
 
 
-    def run(self,out_taxon_dir):
+    def run(self):
         query_list = []
         tree = self.read_tree()
 
@@ -244,11 +307,15 @@ class Tree_taxon(object):
             if (str(node.taxon).strip("'") in ref_id) is False:
                 query_list.append(node)
 
-        label_tree = self.decorate(tree)
-        out_label_tree = os.path.join(out_taxon_dir,self.clustr_name)+"_query_label_file.txt"
-        label_tree.write(path=out_label_tree,schema="nexus")
+        self.decorate(tree)
+        out_label_tree = os.path.join(self.out_dir,self.clustr_name)+"_query_label_file.txt"
+        
+        if(os.path.isfile(out_label_tree)):
+            os.remove(out_label_tree)
 
-        query_dic,taxon_dic = self.classify(label_tree,query_list)
+        tree.write(path=out_label_tree,schema="nexus")
+
+        query_dic,taxon_dic = self.classify(tree,query_list)
         query_dic_csv = pd.DataFrame(list(query_dic.items()))
 
         if self.item == 'Taxon_set':

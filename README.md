@@ -18,7 +18,7 @@
 Phyrvm requires third-party packages from the conda-forge and bioconda channels
 
 ```shell
-conda install -c bioconda blast bbmap seqkit  mafft megahit trimal  pplacer phyml taxonkit  bowtie2 cd-hit
+conda install -c bioconda blast bbmap seqkit  mafft megahit trimal  pplacer  taxonkit  bowtie2 cd-hit
 conda install taxonkit diamond==2.0.15  bowtie2 samtools==1.16.1
 ```
 **Notes:**
@@ -26,7 +26,7 @@ conda install taxonkit diamond==2.0.15  bowtie2 samtools==1.16.1
 - Version of the tool available for reference:
   - bbduk.sh：bbmap v39.01 ； Seqkit v2.4.0 ；bowtie2 v2.5.1 ；megahit v1.2.9
   - mafft v7.520 ；trimal v1.4.1 ；makeblastdb,blastn,blastp v2.13.0+
-  - phyml v3.3.20211231 ；samtools v1.16.1 ；diamond v2.0.15
+  - samtools v1.16.1 ；diamond v2.0.15
 
 - The [taxonkit](https://bioinf.shenwei.me/taxonkit/download/) dataset should also be downloaded!
 
@@ -120,7 +120,7 @@ phyrvm *medthod* [options]
 
 - medthod:
   - end_to_end
-  - contigs_filter
+  - assembly_and_basic_annotation
   - phylogenetic_analysis
 
 ### Example
@@ -129,7 +129,7 @@ phyrvm *medthod* [options]
 phyrvm end_to_end  -i 1.fastq -i2 2.fastq \
     -out_dir out_path  --threads 60 -classify_model All --keep-dup
 	
-phyrvm contigs_filter -i 1.fastq -i2 2.fastq \
+phyrvm assembly_and_basic_annotation -i 1.fastq -i2 2.fastq \
     -out_dir out_path  --threads 60 
 	
 phyrvm phylogenetic_analysis -classify_i test/test_contig.fasta   \
